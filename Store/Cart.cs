@@ -23,18 +23,39 @@ namespace Store
 
         public int GetTotalPrice()
         {
-            List<int> priceList = new List<int>();
-            var sum = 0;
+            // 不重複的 Book 組合
+            List<Book> uniqueGroup = new List<Book>();
+            
+            // 重複的 Book 組合
+            List<Book> notUniqueGroup = new List<Book>();
 
             foreach(var b in this._books)
             {
-                priceList.Add(b.Price);
+                bool isExists = uniqueGroup.Any(item => item.Id == b.Id);
+                if (isExists)
+                {
+                    notUniqueGroup.Add(b);
+                } else
+                {
+                    uniqueGroup.Add(b);
+                }
             }
 
-            sum = priceList.Sum();
-            Console.WriteLine("Price Sum {0}", sum);
+            int sumOfUnique = 0;
+            int sumOfNotUnique = 0;
 
-            return sum;
+            sumOfUnique = uniqueGroup.Sum(p => p.Price);
+            sumOfNotUnique = notUniqueGroup.Sum(p => p.Price);
+
+
+            if(uniqueGroup.Count == 2)
+            {
+                // 兩本不同打 5%
+                sumOfUnique = Convert.ToInt32(sumOfUnique * 0.95);
+            }
+            
+
+            return sumOfUnique + sumOfNotUnique;
         }
     }
 }

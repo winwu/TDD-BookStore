@@ -72,27 +72,9 @@ namespace Store
                 Console.WriteLine("current list is {0} \t", currentList.Count);
 
                 int currentListTotal = currentList.Sum(item => item.Price);
+                double discount = getDiscountByBookLength(currentList.Count);
 
-                if (currentList.Count == 2)
-                {
-                    // 兩本不同打 5%
-                    currentListTotal = Convert.ToInt32(currentListTotal * 0.95);
-                }
-                else if (currentList.Count == 3)
-                {
-                    // 三本不同打 10%
-                    currentListTotal = Convert.ToInt32(currentListTotal * 0.9);
-                }
-                else if (currentList.Count == 4)
-                {
-                    // 四本不同打 20%
-                    currentListTotal = Convert.ToInt32(currentListTotal * 0.8);
-                }
-                else if (currentList.Count == 5)
-                {
-                    // 五本不同打 25%
-                    currentListTotal = Convert.ToInt32(currentListTotal * 0.75);
-                }
+                currentListTotal = Convert.ToInt32(currentListTotal * discount);
 
                 Console.WriteLine("this currentlist after discount {0}", currentListTotal);
                 total += currentListTotal;
@@ -100,6 +82,34 @@ namespace Store
             }
 
             return total;
+        }
+
+        private double getDiscountByBookLength(int count)
+        {
+            double discount = 1;
+  
+            if (count == 2)
+            {
+                // 兩本不同打 5%
+                discount = 0.95;
+            }
+            else if (count == 3)
+            {
+                // 三本不同打 10%
+                discount = 0.9;
+            }
+            else if (count == 4)
+            {
+                // 四本不同打 20%
+                discount = 0.8;
+            }
+            else if (count == 5)
+            {
+                // 五本不同打 25%
+                discount = 0.75;
+            }
+
+            return discount;
         }
     }
 }

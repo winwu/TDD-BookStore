@@ -30,19 +30,13 @@ namespace Store
         public int GetTotalPrice()
         {
             var uniqueCollection = new List<List<Book>>();
-            
-            if (uniqueCollection.Count <= 0)
-            {
-                List<Book> tmp = new List<Book>();
-                uniqueCollection.Add(tmp);
-            }
+            var books = this._books;
 
-            var book = this._books;
-
-            for(var i = 0; i< book.Count(); i++)
+            for(var i = 0; i< books.Count(); i++)
             {
-                Console.WriteLine("index is : {0}", i);
-                var b = book.ElementAt(i);
+                // Console.WriteLine("index is : {0}", i);
+
+                var b = books.ElementAt(i);
 
                 // 有沒有被 append 過
                 bool used = false;
@@ -51,7 +45,7 @@ namespace Store
                 {
                     if(!currentList.Any(item => item.Id == b.Id))
                     {
-                        // 沒有重複 也沒有用過
+                        // 在 currentList 沒有重複 也沒有用過 (used = false)
                         if (used == false)
                         {
                             Console.WriteLine("never used");
@@ -93,28 +87,27 @@ namespace Store
         private double getDiscountByBookLength(int count)
         {
             double discount = 1;
-  
-            if (count == 2)
+            
+            switch(count)
             {
-                // 兩本不同打 5%
-                discount = 0.95;
+                case 2:
+                    // 兩本不同打 5%
+                    discount = 0.95;
+                    break;
+                case 3:
+                    // 三本不同打 10%
+                    discount = 0.9;
+                    break;
+                case 4:
+                    // 四本不同打 20%
+                    discount = 0.8;
+                    break;
+                case 5:
+                    // 五本不同打 25%
+                    discount = 0.75;
+                    break;
             }
-            else if (count == 3)
-            {
-                // 三本不同打 10%
-                discount = 0.9;
-            }
-            else if (count == 4)
-            {
-                // 四本不同打 20%
-                discount = 0.8;
-            }
-            else if (count == 5)
-            {
-                // 五本不同打 25%
-                discount = 0.75;
-            }
-
+            
             return discount;
         }
     }

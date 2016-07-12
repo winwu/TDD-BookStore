@@ -55,8 +55,12 @@ namespace Store
             } else if (uniqueGroup.Count == 3 ) {
                 // 三本不同打 10%
                 sumOfUnique = Convert.ToInt32(sumOfUnique * 0.9);
+            } else if (uniqueGroup.Count == 4)
+            {
+                // 三本不同打 10%
+                sumOfUnique = Convert.ToInt32(sumOfUnique * 0.8);
             }
-            
+
 
             return sumOfUnique + sumOfNotUnique;
         }

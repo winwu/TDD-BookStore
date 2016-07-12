@@ -113,7 +113,7 @@ namespace Store.Tests
                 new Book() { Id = "2", Name = "《哈利波特-消失的密室》", Price = 100 },
                 new Book() { Id = "3", Name = "《哈利波特-阿茲卡班的逃犯》", Price = 100 },
                 new Book() { Id = "4", Name = "《哈利波特-火盃的考驗》", Price = 100 },
-                new Book() { Id = "4", Name = "《哈利波特-鳳凰會的密令》", Price = 100 }
+                new Book() { Id = "5", Name = "《哈利波特-鳳凰會的密令》", Price = 100 }
             };
 
             var target = new Cart(books);

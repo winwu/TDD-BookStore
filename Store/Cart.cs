@@ -23,48 +23,83 @@ namespace Store
 
         public int GetTotalPrice()
         {
-            // 不重複的 Book 組合
-            List<Book> uniqueGroup = new List<Book>();
+            var uniqueCollection = new List<List<Book>>();
             
-            // 重複的 Book 組合
-            List<Book> notUniqueGroup = new List<Book>();
-
-            foreach(var b in this._books)
+            if (uniqueCollection.Count <= 0)
             {
-                bool isExists = uniqueGroup.Any(item => item.Id == b.Id);
-                if (isExists)
+                List<Book> tmp = new List<Book>();
+                uniqueCollection.Add(tmp);
+            }
+
+            var book = this._books;
+
+            for(var i = 0; i< book.Count(); i++)
+            {
+                Console.WriteLine("index is : {0}", i);
+                var b = book.ElementAt(i);
+
+                // 有沒有被 append 過
+                bool used = false;
+
+                foreach (var currentList in uniqueCollection.ToList())
                 {
-                    notUniqueGroup.Add(b);
-                } else
+                    if(!currentList.Any(item => item.Id == b.Id))
+                    {
+                        // 沒有重複 也沒有用過
+                        if (used == false)
+                        {
+                            Console.WriteLine("never used");
+                            currentList.Add(b);
+                            used = true;
+                            // break;
+                        }
+                    }
+                }
+
+                if (!used)
                 {
-                    uniqueGroup.Add(b);
+                    var tmpList = new List<Book>();
+                    tmpList.Add(b);
+                    uniqueCollection.Add(tmpList);
                 }
             }
 
-            int sumOfUnique = 0;
-            int sumOfNotUnique = 0;
+            // default total
+            int total = 0;
 
-            sumOfUnique = uniqueGroup.Sum(p => p.Price);
-            sumOfNotUnique = notUniqueGroup.Sum(p => p.Price);
-
-
-            if(uniqueGroup.Count == 2)
+            foreach(var currentList in uniqueCollection)
             {
-                // 兩本不同打 5%
-                sumOfUnique = Convert.ToInt32(sumOfUnique * 0.95);
-            } else if (uniqueGroup.Count == 3 ) {
-                // 三本不同打 10%
-                sumOfUnique = Convert.ToInt32(sumOfUnique * 0.9);
-            } else if (uniqueGroup.Count == 4) {
-                // 四本不同打 20%
-                sumOfUnique = Convert.ToInt32(sumOfUnique * 0.8);
-            } else if (uniqueGroup.Count == 5)  {
-                // 五本不同打 25%
-                sumOfUnique = Convert.ToInt32(sumOfUnique * 0.75);
+                Console.WriteLine("current list is {0} \t", currentList.Count);
+
+                int currentListTotal = currentList.Sum(item => item.Price);
+
+                if (currentList.Count == 2)
+                {
+                    // 兩本不同打 5%
+                    currentListTotal = Convert.ToInt32(currentListTotal * 0.95);
+                }
+                else if (currentList.Count == 3)
+                {
+                    // 三本不同打 10%
+                    currentListTotal = Convert.ToInt32(currentListTotal * 0.9);
+                }
+                else if (currentList.Count == 4)
+                {
+                    // 四本不同打 20%
+                    currentListTotal = Convert.ToInt32(currentListTotal * 0.8);
+                }
+                else if (currentList.Count == 5)
+                {
+                    // 五本不同打 25%
+                    currentListTotal = Convert.ToInt32(currentListTotal * 0.75);
+                }
+
+                Console.WriteLine("this currentlist after discount {0}", currentListTotal);
+                total += currentListTotal;
+
             }
 
-
-            return sumOfUnique + sumOfNotUnique;
+            return total;
         }
     }
 }

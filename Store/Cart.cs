@@ -14,16 +14,27 @@ namespace Store
 
     public class Cart
     {
-        private List<Book> books;
+        private IEnumerable<Book> _books;
 
-        public Cart(List<Book> books)
+        public Cart(IEnumerable<Book> books)
         {
-            this.books = books;
+            this._books = books;
         }
 
-        public object GetTotalPrice()
+        public int GetTotalPrice()
         {
-            throw new NotImplementedException();
+            List<int> priceList = new List<int>();
+            var sum = 0;
+
+            foreach(var b in this._books)
+            {
+                priceList.Add(b.Price);
+            }
+
+            sum = priceList.Sum();
+            Console.WriteLine("Price Sum {0}", sum);
+
+            return sum;
         }
     }
 }

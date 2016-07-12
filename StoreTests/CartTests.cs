@@ -33,7 +33,7 @@ namespace Store.Tests
             var actual = target.GetTotalPrice();
 
             // assert
-            Assert.Fail();
+            Assert.AreEqual(expected, actual);
         }
     }
 }

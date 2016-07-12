@@ -52,6 +52,9 @@ namespace Store
             {
                 // 兩本不同打 5%
                 sumOfUnique = Convert.ToInt32(sumOfUnique * 0.95);
+            } else if (uniqueGroup.Count == 3 ) {
+                // 三本不同打 10%
+                sumOfUnique = Convert.ToInt32(sumOfUnique * 0.9);
             }
             
 

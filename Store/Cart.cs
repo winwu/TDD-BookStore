@@ -16,6 +16,12 @@ namespace Store
     {
         private IEnumerable<Book> _books;
 
+        public Cart()
+        {
+            // constructor
+            this._books = Enumerable.Empty<Book>();
+        }
+
         public Cart(IEnumerable<Book> books)
         {
             this._books = books;
